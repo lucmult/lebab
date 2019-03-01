@@ -195,6 +195,13 @@ describe('Arrow functions', () => {
         'a((a, b=2, ...c) => { this.x = 3; });'
       );
     });
+    it('should convert this-using functions bindint additional arugments',
+       () => {
+         expectTransform(
+             'a(function (a, b=2, ...c) { this.x = 3; }.bind(this, 3));')
+         .toReturn(
+             'a(((a, b=2, ...c) => { this.x = 3; }).bind(null, 3));');
+       });
 
     it('should convert immediately returning functions', () => {
       expectTransform(
